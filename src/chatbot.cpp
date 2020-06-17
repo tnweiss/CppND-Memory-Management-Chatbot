@@ -46,24 +46,23 @@ ChatBot::~ChatBot()
 ////
 // move constructor
 ChatBot::ChatBot(ChatBot &&chatbot){
-    std::cout << "MOVING (constructor) instance " << &chatbot << " to " << this << std::endl;
+    std::cout << "ChatBot Move Constructor" << std::endl;
 
     // set variables
     _chatLogic = chatbot._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = chatbot._rootNode;
-    _currentNode = chatbot._currentNode;
     _image = chatbot._image;
 
     // set to null on old object
     chatbot._chatLogic = nullptr;
     chatbot._rootNode = nullptr;
     chatbot._image = nullptr;
-    chatbot._currentNode = nullptr;
 };
 
 // move assignment
 ChatBot &ChatBot::operator=(ChatBot &&chatbot){
-    std::cout << "MOVING (assignment) instance " << &chatbot << " to " << this << std::endl;
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
 
     if(this == &chatbot) {
         return *this;
@@ -74,31 +73,29 @@ ChatBot &ChatBot::operator=(ChatBot &&chatbot){
 
     // set variables
     _chatLogic = chatbot._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = chatbot._rootNode;
-    _currentNode = chatbot._currentNode;
     _image = chatbot._image;
 
     // set to null on old object
     chatbot._chatLogic = nullptr;
     chatbot._rootNode = nullptr;
     chatbot._image = nullptr;
-    chatbot._currentNode = nullptr;
 
     return *this;
 } 
 // copy constructor
 ChatBot::ChatBot(const ChatBot &chatbot){
-    std::cout << "COPYING (constructor) instance " << &chatbot << " to " << this << std::endl;
+    std::cout << "ChatBot Copy Constructor" << std::endl;
 
     _chatLogic = chatbot._chatLogic;
     _rootNode = chatbot._rootNode;
-    _currentNode = chatbot._currentNode;
     _image = new wxBitmap(*chatbot._image); // don't need to delete because nothing exists
 }
 
 // copy assignment
 ChatBot &ChatBot::operator=(const ChatBot &chatbot){
-    std::cout << "COPYING (assignment) instance " << &chatbot << " to " << this << std::endl;
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
 
     if(this == &chatbot){
         return *this;
@@ -109,7 +106,6 @@ ChatBot &ChatBot::operator=(const ChatBot &chatbot){
 
     _chatLogic = chatbot._chatLogic;
     _rootNode = chatbot._rootNode;
-    _currentNode = chatbot._currentNode;
     _image = new wxBitmap(*chatbot._image);
 
     return *this;
