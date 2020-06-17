@@ -44,7 +44,76 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+// move constructor
+ChatBot::ChatBot(ChatBot &&chatbot){
+    std::cout << "MOVING (constructor) instance " << &chatbot << " to " << this << std::endl;
 
+    // set variables
+    _chatLogic = chatbot._chatLogic;
+    _rootNode = chatbot._rootNode;
+    _currentNode = chatbot._currentNode;
+    _image = chatbot._image;
+
+    // set to null on old object
+    chatbot._chatLogic = nullptr;
+    chatbot._rootNode = nullptr;
+    chatbot._image = nullptr;
+    chatbot._currentNode = nullptr;
+};
+
+// move assignment
+ChatBot &ChatBot::operator=(ChatBot &&chatbot){
+    std::cout << "MOVING (assignment) instance " << &chatbot << " to " << this << std::endl;
+
+    if(this == &chatbot) {
+        return *this;
+    }
+
+    // cleanup existing resources to be overwritten
+    delete _image;
+
+    // set variables
+    _chatLogic = chatbot._chatLogic;
+    _rootNode = chatbot._rootNode;
+    _currentNode = chatbot._currentNode;
+    _image = chatbot._image;
+
+    // set to null on old object
+    chatbot._chatLogic = nullptr;
+    chatbot._rootNode = nullptr;
+    chatbot._image = nullptr;
+    chatbot._currentNode = nullptr;
+
+    return *this;
+} 
+// copy constructor
+ChatBot::ChatBot(const ChatBot &chatbot){
+    std::cout << "COPYING (constructor) instance " << &chatbot << " to " << this << std::endl;
+
+    _chatLogic = chatbot._chatLogic;
+    _rootNode = chatbot._rootNode;
+    _currentNode = chatbot._currentNode;
+    _image = new wxBitmap(*chatbot._image); // don't need to delete because nothing exists
+}
+
+// copy assignment
+ChatBot &ChatBot::operator=(const ChatBot &chatbot){
+    std::cout << "COPYING (assignment) instance " << &chatbot << " to " << this << std::endl;
+
+    if(this == &chatbot){
+        return *this;
+    }
+    
+    // cleanup existing heap for overwrite
+    delete _image;
+
+    _chatLogic = chatbot._chatLogic;
+    _rootNode = chatbot._rootNode;
+    _currentNode = chatbot._currentNode;
+    _image = new wxBitmap(*chatbot._image);
+
+    return *this;
+}
 ////
 //// EOF STUDENT CODE
 
